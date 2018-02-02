@@ -10,5 +10,12 @@ class PriceCalculatorTest extends TestCase
     public function testComputePriceOnProductNegativePriceThrowException()
     {
         // Todo : on teste qu'une exception \DomainException est levée si un produit à un prix négatif.
+
+        $productRepositoryMock = $this->prophesize(ProductRepositoryInterface::class);
+        $productRepositoryMock->findAll()->willReturn([new Product(-10.0)]);
+        $priceCalculator = new PriceCalculator($productRepositoryMock->reveal());
+
+        $this->expectException(\DomainException::class);
+        $priceCalculator ->computePrice();
     }
 }

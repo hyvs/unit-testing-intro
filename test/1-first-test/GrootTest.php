@@ -11,7 +11,8 @@ class GrootTest extends TestCase
         // Todo : on teste que le voccabulaire de Groot se limite à "I am Groot"
         // https://phpunit.de/manual/current/en/appendixes.assertions.html#appendixes.assertions.assertEquals
         // Groot est le "SUT" (system under test)
+        $groot = new Groot();
 
-        $this->assertTrue(false);
+        $this->assertEquals($groot->speak(), 'I am Groot');
     }
 }

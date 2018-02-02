@@ -29,7 +29,19 @@ class VoucherFillerTest extends TestCase
             ->setBegin(new \DateTimeImmutable('2018-02-02T09:42:14.974272+0000'))
             ->setEnd(new \DateTimeImmutable('2018-02-02T09:42:14.974272+0000'));
 
-        $filledVoucher = null;
+        $this->uploaderMock->put()->shouldNotBeCalled();
+
+        $request = new Request([], [
+            'title' => 'title',
+            'shortDescription' => 'shortDescription',
+            'availability' => [
+                'type' => 'always',
+                'begin' => '2018-02-02T09:42:14.974272+0000',
+                'end' => '2018-02-02T09:42:14.974272+0000',
+                'quantity' => 1
+            ]
+        ]);
+        $filledVoucher = $this->voucherFiller->fillVoucher(new Voucher(), 1, $request);
 
         $this->assertEquals($expectedVoucher, $filledVoucher);
     }
@@ -46,8 +58,22 @@ class VoucherFillerTest extends TestCase
             ->setBegin(new \DateTimeImmutable('2018-02-02T09:42:14.974272+0000'))
             ->setEnd(new \DateTimeImmutable('2018-02-02T09:42:14.974272+0000'));
 
+        $this->uploaderMock->put(Argument::any(), 'hello')->shouldBeCalled();
 
-        $filledVoucher = null;
+        $request = new Request([], [
+            'title' => 'title',
+            'shortDescription' => 'shortDescription',
+            'availability' => [
+                'type' => 'always',
+                'begin' => '2018-02-02T09:42:14.974272+0000',
+                'end' => '2018-02-02T09:42:14.974272+0000',
+                'quantity' => 1
+            ],
+            'pictureName' => 'foo.jpg',
+            'pictureData' => 'aGVsbG8=',
+        ]);
+
+        $filledVoucher = $this->voucherFiller->fillVoucher(new Voucher(), 1, $request);
 
         $this->assertEquals($expectedVoucher, $filledVoucher);
     }

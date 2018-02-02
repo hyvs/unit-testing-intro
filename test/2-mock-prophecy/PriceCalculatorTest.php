@@ -11,6 +11,12 @@ class PriceCalculatorTest extends TestCase
     {
         // Todo : on mock la méthode findAll() de notre product repository
 
-        $this->assertEquals(10.0 /*$priceCalculator->computePrice()*/, 30.0);
+        $productRepositoryMock = $this->prophesize(ProductRepositoryInterface::class);
+        $productRepositoryMock->findAll()->willReturn([
+            new Product(10.0), new Product(15.0), new Product(5.0)
+        ]);
+        $priceCalculator = new PriceCalculator($productRepositoryMock->reveal());
+
+        $this->assertEquals($priceCalculator->computePrice(), 30.0);
     }
 }
