@@ -1,0 +1,9 @@
+/* custom styles can go here */
+
+section.slide {
+	font-size: 0.9em;
+}
+
+span.php span.hljs-title {
+    color: #1a11c4;
+}
